@@ -1,0 +1,52 @@
+#Include "protheus.ch"
+#Include "RESTFUL.ch"
+
+/*/{Protheus.doc} WSR001
+    (Função que recebe um ced e retorna uma array com os dados do endereço)
+    @type  Function
+    @author Leonardo Padilha Fontana
+    @since 26/07/2025
+    @version 12.1.2410
+    @param cCep, character, dados de cep para serem validados na api VIACEP
+    @return aRet, array, array com os dados do endereco disponibilizados pela api
+    @example
+    (examples)
+    @see (links_or_references)
+    /*/
+User Function WSR001(cCep)
+    Local aArea         := GetArea()
+    Local aHeader       := {}    
+    Local oRestClient   := FWRest():New("https://viacep.com.br/ws")
+    Local jJson         := JsonObject():New()
+    local aRet         := {}
+
+    aadd(aHeader,'User-Agent: Mozilla/4.0 (compatible; Protheus '+GetBuild()+')')
+    aAdd(aHeader,'Content-Type: application/json; charset=utf-8')
+    
+    oRestClient:setPath("/"+cCep+"/json/")
+    If oRestClient:Get(aHeader)
+        cDecodeUTF8 := DecodeUTF8(oRestClient:CRESULT, "cp1252")    
+        jJson:FromJson(cDecodeUTF8)          
+   
+        //Se as keys não existirem, cria elas com conteudo vazio.
+        jJson['logradouro'] := Iif( ValType(jJson['logradouro'])  != "U", jJson['logradouro'] , "")
+        jJson['complemento']:= Iif( ValType(jJson['complemento']) != "U", jJson['complemento'], "")
+        jJson['bairro']     := Iif( ValType(jJson['bairro'])      != "U", jJson['bairro']     , "")
+        jJson['localidade'] := Iif( ValType(jJson['localidade'])  != "U", jJson['localidade'] , "")
+        jJson['uf']         := Iif( ValType(jJson['uf'])          != "U", jJson['uf']         , "")
+        
+    Else
+        ConOut("[U_zViaCep] - ** Erro Api ViaCep: "+oRestClient:GetLastError())
+        return aRet
+    Endif  
+   
+    aadd(aRet, jJson['logradouro'])
+    aadd(aRet, jJson['complemento'])
+    aadd(aRet, jJson['bairro'])
+    aadd(aRet, jJson['localidade'])
+    aadd(aRet, jJson['uf'])
+
+
+    FreeObj(oRestClient)
+    RestArea(aArea)
+Return aRet
