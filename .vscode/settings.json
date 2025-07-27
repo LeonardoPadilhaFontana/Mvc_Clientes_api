@@ -1,4 +1,4 @@
 {
-    "totvsLanguageServer.welcomePage": false,
-    "totvsLanguageServer.editor.linter.includes": "C:\\totvs\\Protheus_1212410\\protheus_data\\includes;C:\\totvs\\Protheus_1212410\\protheus_data\\includes"
+    "totvsLanguageServer.editor.linter.includes": "C:\\totvs\\Protheus_1212410\\protheus_data\\includes;C:\\totvs\\Protheus_1212410\\protheus_data\\includes",
+    "totvsLanguageServer.welcomePage": false
 }

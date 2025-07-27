@@ -2,33 +2,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"type": "totvs_language_web_debug",
+			"type": "totvs_language_debug",
 			"request": "launch",
-			"name": "Smart Client Web Debug",
+			"name": "TOTVS Language Debug",
 			"program": "${command:AskForProgramName}",
+			"cwb": "${workspaceFolder}",
+			"smartclientBin": "../totvs/bin/smartclient/smartclient.exe",
 			"isMultiSession": true,
 			"enableTableSync": true,
-			"cwb": "${workspaceFolder}",
-			"enableMultiThread": true
+			"extendFeatures": {
+				"charDetails": false
+			}
 		}
-	],
-	"lastPrograms": [
-		{
-			"label": "sigamdi"
-		},
-		{
-			"label": "sigacfg"
-		},
-		{
-			"label": "SIGACOM"
-		},
-		{
-			"label": "xxxx"
-		},
-		{
-			"label": "u_startrest"
-		}
-	],
-	"lastProgramExecuted": "sigacfg",
-	"lastProgramArguments": []
+	]
 }
